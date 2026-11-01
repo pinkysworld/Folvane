@@ -41,3 +41,5 @@ code{background:color-mix(in srgb,var(--ink) 8%,transparent);padding:1px 5px;bor
 address{font-style:normal}
 .footer{border-top:1px solid var(--line);padding:24px 16px;margin-top:24px;color:var(--muted);font-size:14px}.footer a{color:var(--muted)}.footer p{margin:6px 0 0}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.storebadge{display:inline-block;line-height:0}.storebadge img{height:44px;width:auto;display:block}
+.doc ol,.doc ul{padding-left:22px;color:var(--muted)}.doc li{margin:0 0 8px}

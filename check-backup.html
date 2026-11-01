@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#3f4fc8">
+<title>Check your backup – is the backup folder complete? | Folvane</title>
+<meta name="description" content="How to check on Windows whether a backup folder is complete and up to date, and what Folvane shows. Folvane compares folders; it does not schedule backups.">
+<link rel="canonical" href="https://minh.systems/Folvane/check-backup.html">
+<link rel="alternate" hreflang="en" href="https://minh.systems/Folvane/check-backup.html">
+<link rel="alternate" hreflang="de" href="https://minh.systems/Folvane/de/backup-pruefen.html">
+<link rel="alternate" hreflang="x-default" href="https://minh.systems/Folvane/check-backup.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Folvane">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Check your backup – is the backup folder complete? | Folvane"><meta property="og:description" content="How to check on Windows whether a backup folder is complete and up to date, and what Folvane shows. Folvane compares folders; it does not schedule backups.">
+<meta property="og:url" content="https://minh.systems/Folvane/check-backup.html"><meta property="og:image" content="https://minh.systems/Folvane/img/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Folvane – folder compare &amp; sync for Windows">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png" type="image/png"><link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=3">
+<script src="site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does Folvane make backups automatically?", "acceptedAnswer": {"@type": "Answer", "text": "No. It compares two folders and syncs them on demand, with a preview and undo. It has no scheduler."}}, {"@type": "Question", "name": "Can I check an external drive or network share?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, anything Windows shows as a folder. For FAT/exFAT drives there is a time tolerance for timestamp differences."}}, {"@type": "Question", "name": "Does it work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Folvane needs no internet connection, no account and sends no data."}}, {"@type": "Question", "name": "What if the backup has files the original does not?", "acceptedAnswer": {"@type": "Answer", "text": "They show as “right only”. Folvane does not remove them unless you choose a mirror sync, which is always previewed and backed up first."}}]}</script>
+</head>
+<body class="document-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><nav aria-label="Main" class="wrap">
+<a class="brand" href="./"><img alt="" width="36" height="36" src="img/logo.png"><span>Folvane<small>Folder compare & sync</small></span></a>
+<div class="links"><a href="./#features">Features</a><a href="./#price">Price</a><a href="support.html">Support</a><a class="lang" href="de/backup-pruefen.html" hreflang="de" lang="de" aria-label="Zu Deutsch wechseln">DE</a></div>
+</nav></header>
+<main id="main">
+<div class="wrap doc"><h1>Check your backup on Windows</h1><p class="lead2">A backup you never checked is a guess. Here is a simple way to see whether your backup folder really contains everything from the original, and which files are missing or out of date.</p>
+<h2>The idea</h2><p>Compare the original folder (left) with the backup folder (right). Every file ends up in one of a few states, so gaps are visible at a glance instead of buried in thousands of files.</p><h2>Steps with Folvane</h2><ol><li>Choose the original folder on the left and the backup folder on the right.</li><li>Press F5 to compare. By size and date this takes seconds; choose byte-by-byte if you want to be certain that the content is identical.</li><li>Read the states: <strong>identical</strong> means the backup is current. <strong>Left only</strong> means the file exists in the original but not in the backup. <strong>Left newer</strong> means the backup holds an older version. <strong>Right only</strong> means the backup contains a file that is no longer in the original.</li><li>Use the color filters to show just the problems, or search for a name.</li><li>Double-click a changed text file to see both versions side by side.</li><li>Save the result as a PDF, HTML or CSV report if you want to keep a record.</li></ol><h2>Bringing the backup up to date</h2><p>If the backup should match the original, Folvane can sync it. Every action is listed in a preview first, and you can untick single items. “Update right side” copies new and changed files without deleting anything; “Mirror” also removes files that are not in the original. Replaced and removed files are backed up first, so the last sync can be undone from the history.</p><h2>Honest limits</h2><ul><li>Folvane <strong>compares and syncs folders when you start it</strong>. It does not schedule or run backups in the background. To keep a backup current you run the comparison again, or let another tool create the backup and use Folvane to check it.</li><li>A matching comparison shows that two folders have the same files. It does not prove that the backup can be restored, that the drive is healthy, or that you have an additional copy somewhere else.</li><li>Files that are open or locked by other programs may not be copied; the sync log tells you about failures.</li><li>Two-way sync does not detect deleted files. Use mirror when deletions should be carried over.</li></ul>
+<h2>Frequently asked questions</h2><details><summary>Does Folvane make backups automatically?</summary><p>No. It compares two folders and syncs them on demand, with a preview and undo. It has no scheduler.</p></details><details><summary>Can I check an external drive or network share?</summary><p>Yes, anything Windows shows as a folder. For FAT/exFAT drives there is a time tolerance for timestamp differences.</p></details><details><summary>Does it work offline?</summary><p>Yes. Folvane needs no internet connection, no account and sends no data.</p></details><details><summary>What if the backup has files the original does not?</summary><p>They show as “right only”. Folvane does not remove them unless you choose a mirror sync, which is always previewed and backed up first.</p></details>
+<section class="card"><h2>Folvane</h2><p>Folvane – €9.99, one-time. Windows 10 (1809+) and 11 · x64 and ARM64 · English and German · One-time purchase, no subscription</p><p><a class="storebadge" href="https://apps.microsoft.com/detail/9NSDC58HLFRR?cid=website" rel="noopener"><img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from the Microsoft Store" width="161" height="44" loading="lazy"></a></p></section>
+<p><a href="compare-folders-windows.html">Compare folders on Windows →</a> · <a href="./">Folvane</a></p></div>
+</main>
+<footer class="wrap footer">
+<a href="./">Folvane</a> · <a href="compare-folders-windows.html">Compare folders on Windows</a> · <a href="check-backup.html">Check your backup</a> · <a href="support.html">Support</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a>
+<p>© 2026 Minh Studios · Michel Nguyen</p>
+<p>No cookies, no trackers, no external scripts.</p>
+</footer>
+</body>
+</html>

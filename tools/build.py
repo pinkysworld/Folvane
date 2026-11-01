@@ -3,36 +3,39 @@ from PIL import Image, ImageDraw, ImageFont
 SRC=os.path.expanduser('~/Developer/folvane'); OUT=os.path.expanduser('~/Developer/folvane-site')
 BASE='https://minh.systems/Folvane/'
 STORE='https://apps.microsoft.com/detail/9NSDC58HLFRR'
+STORE_URL={'en':STORE+'?cid=website','de':STORE+'?cid=website&hl=de-de'}
+BADGE={'en':'https://get.microsoft.com/images/en-us%20dark.svg','de':'https://get.microsoft.com/images/de%20dark.svg'}
 for d in ('img','de'): os.makedirs(f'{OUT}/{d}',exist_ok=True)
 # images
-for lg in ('de','en'):
-    for th in ('light','dark'):
-        for n,name in ((2,'compare'),(3,'sync'),(4,'twoway'),(5,'duplicates'),(6,'textdiff')):
-            im=Image.open(f'{SRC}/store/screenshots/{lg}/{th}/{n}-{name}.png').convert('RGB')
-            im.save(f'{OUT}/img/{lg}-{th}-{name}.png',optimize=True)
-logo=Image.open(f'{SRC}/src/Folvane.App/Assets/logo.png').convert('RGBA')
-logo.save(f'{OUT}/img/logo.png'); logo.resize((64,64),Image.LANCZOS).save(f'{OUT}/favicon.png')
-logo.save(f'{OUT}/favicon.ico',sizes=[(16,16),(32,32),(48,48),(64,64)])
-logo.resize((180,180),Image.LANCZOS).save(f'{OUT}/img/apple-touch-icon.png')
-# OG image
-W,H=1200,630
-og=Image.new('RGB',(W,H),(246,245,242)); dr=ImageDraw.Draw(og)
-def font(sz,bold=False):
-    for p in ('/System/Library/Fonts/Helvetica.ttc','/System/Library/Fonts/SFNS.ttf'):
-        try: return ImageFont.truetype(p,sz,index=1 if bold else 0)
-        except Exception: pass
-    return ImageFont.load_default()
-shot=Image.open(f'{SRC}/store/screenshots/en/light/2-compare.png').convert('RGB')
-sw=720; sh=int(shot.height*sw/shot.width); shot=shot.resize((sw,sh),Image.LANCZOS)
-dr.rounded_rectangle((440,230,440+sw+4,230+sh+4),14,fill=(255,255,255),outline=(210,206,198),width=2)
-og.paste(shot,(442,232))
-og.paste(logo.resize((96,96),Image.LANCZOS),(60,60),logo.resize((96,96),Image.LANCZOS))
-dr.text((176,78),'Folvane',font=font(56,True),fill=(30,34,48))
-dr.text((60,200),'Two folders.',font=font(64,True),fill=(30,34,48))
-dr.text((60,276),'One look.',font=font(64,True),fill=(63,79,200))
-for i,t in enumerate(('Compare and sync folders','Preview, undo, offline','One-time purchase, Windows')):
-    dr.text((60,400+i*40),t,font=font(28),fill=(94,99,114))
-og.save(f'{OUT}/img/og.png',optimize=True)
+if os.path.exists(f'{SRC}/store/screenshots/de/light/2-compare.png'):  # skip image regeneration if sources are unavailable
+    for lg in ('de','en'):
+        for th in ('light','dark'):
+            for n,name in ((2,'compare'),(3,'sync'),(4,'twoway'),(5,'duplicates'),(6,'textdiff')):
+                im=Image.open(f'{SRC}/store/screenshots/{lg}/{th}/{n}-{name}.png').convert('RGB')
+                im.save(f'{OUT}/img/{lg}-{th}-{name}.png',optimize=True)
+    logo=Image.open(f'{SRC}/src/Folvane.App/Assets/logo.png').convert('RGBA')
+    logo.save(f'{OUT}/img/logo.png'); logo.resize((64,64),Image.LANCZOS).save(f'{OUT}/favicon.png')
+    logo.save(f'{OUT}/favicon.ico',sizes=[(16,16),(32,32),(48,48),(64,64)])
+    logo.resize((180,180),Image.LANCZOS).save(f'{OUT}/img/apple-touch-icon.png')
+    # OG image
+    W,H=1200,630
+    og=Image.new('RGB',(W,H),(246,245,242)); dr=ImageDraw.Draw(og)
+    def font(sz,bold=False):
+        for p in ('/System/Library/Fonts/Helvetica.ttc','/System/Library/Fonts/SFNS.ttf'):
+            try: return ImageFont.truetype(p,sz,index=1 if bold else 0)
+            except Exception: pass
+        return ImageFont.load_default()
+    shot=Image.open(f'{SRC}/store/screenshots/en/light/2-compare.png').convert('RGB')
+    sw=720; sh=int(shot.height*sw/shot.width); shot=shot.resize((sw,sh),Image.LANCZOS)
+    dr.rounded_rectangle((440,230,440+sw+4,230+sh+4),14,fill=(255,255,255),outline=(210,206,198),width=2)
+    og.paste(shot,(442,232))
+    og.paste(logo.resize((96,96),Image.LANCZOS),(60,60),logo.resize((96,96),Image.LANCZOS))
+    dr.text((176,78),'Folvane',font=font(56,True),fill=(30,34,48))
+    dr.text((60,200),'Two folders.',font=font(64,True),fill=(30,34,48))
+    dr.text((60,276),'One look.',font=font(64,True),fill=(63,79,200))
+    for i,t in enumerate(('Compare and sync folders','Preview, undo, offline','One-time purchase, Windows')):
+        dr.text((60,400+i*40),t,font=font(28),fill=(94,99,114))
+    og.save(f'{OUT}/img/og.png',optimize=True)
 
 # ---------- content ----------
 L={}
@@ -40,7 +43,7 @@ L['en']=dict(code='en',loc='en_US',home='',sl='en',
  tag='Folder compare & sync',
  nav=[('features','Features'),('safe','Safety'),('price','Price'),('faq','FAQ')],
  support='Support',privacy='Privacy',imprint='Legal notice',skip='Skip to content',
- files=dict(index='index.html',privacy='privacy.html',support='support.html',imprint='imprint.html'),
+ files=dict(index='index.html',privacy='privacy.html',support='support.html',imprint='imprint.html',check='check-backup.html',cmpwin='compare-folders-windows.html'),
  other='de/',otherlbl='DE',othername='Zu Deutsch wechseln',
  get='Get it from the Microsoft Store',getsub='Folvane – €9.99, one-time',
  title='Folvane – Folder Compare & Sync for Windows',
@@ -98,11 +101,13 @@ L['en']=dict(code='en',loc='en_US',home='',sl='en',
  foot_note='No cookies, no trackers, no external scripts.',
  nf_t='Page not found',nf_p='This page does not exist.',nf_a='Back to the home page'
 )
+L['en'].update(store_title='Folvane – Folder Compare, Sync & Backup',g_h='Guides',g_cmp='Compare folders on Windows',g_chk='Check your backup',
+ g_cmp_d='How to see which files differ between two folders, and what Folvane shows you.',g_chk_d='How to verify that a backup folder is complete and up to date.')
 L['de']=dict(code='de',loc='de_DE',home='',sl='de',
  tag='Ordner vergleichen & synchronisieren',
  nav=[('features','Funktionen'),('safe','Sicherheit'),('price','Preis'),('faq','FAQ')],
  support='Support',privacy='Datenschutz',imprint='Impressum',skip='Zum Inhalt',
- files=dict(index='index.html',privacy='privacy.html',support='support.html',imprint='impressum.html'),
+ files=dict(index='index.html',privacy='privacy.html',support='support.html',imprint='impressum.html',check='backup-pruefen.html',cmpwin='ordner-vergleichen-windows.html'),
  other='../',otherlbl='EN',othername='Switch to English',
  get='Im Microsoft Store herunterladen',getsub='Folvane – 9,99 €, einmalig',
  title='Folvane – Ordner vergleichen & synchronisieren unter Windows',
@@ -191,7 +196,10 @@ PRIV={'en':'''<h1>Privacy</h1>
 IMP={'en':('Legal notice','Information pursuant to § 5 DDG (German Digital Services Act)','Germany','Contact','Email','Scope','This legal notice applies to this website and the Windows app “Folvane – Folder Compare &amp; Sync”. It matches the central <a href="https://minh.systems/impressum/">legal notice of minh.systems</a>.','Consumer dispute resolution','We are neither willing nor obliged to take part in dispute resolution proceedings before a consumer arbitration board.'),
  'de':('Impressum','Angaben gemäß § 5 DDG','Deutschland','Kontakt','E-Mail','Geltungsbereich','Dieses Impressum gilt für diese Website und die Windows-App „Folvane – Ordner vergleichen &amp; synchronisieren“. Es entspricht dem zentralen <a href="https://minh.systems/impressum/">Impressum von minh.systems</a>.','Verbraucherstreitbeilegung','Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.')}
 
-def head(c,page,title,desc,pre,og='img/og.png'):
+L['de'].update(store_title='Folvane – Ordner vergleichen, Sync & Backup',g_h='Anleitungen',g_cmp='Ordner vergleichen unter Windows',g_chk='Backup prüfen',
+ g_cmp_d='So siehst du, welche Dateien sich zwischen zwei Ordnern unterscheiden, und was Folvane anzeigt.',g_chk_d='So prüfst du, ob ein Backup-Ordner vollständig und aktuell ist.')
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'guides.py'),encoding='utf-8').read())
+def head(c,page,title,desc,pre,og='img/og.png',extra=''):
     f=c['files']; o=L['de' if c['code']=='en' else 'en']
     url=lambda cc,p: BASE+('' if cc=='en' else 'de/')+('' if p=='index' else L[cc]['files'][p])
     here=url(c['code'],page)
@@ -217,18 +225,18 @@ def head(c,page,title,desc,pre,og='img/og.png'):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{pre}favicon.png" type="image/png"><link rel="icon" href="{pre}favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="{pre}img/apple-touch-icon.png">
-<link rel="stylesheet" href="{pre}style.css?v=2">
+<link rel="stylesheet" href="{pre}style.css?v=3">
 <script src="{pre}site.js" defer></script>
-</head>
+{extra}</head>
 '''
-def shell(c,page,title,desc,body,cls=''):
+def shell(c,page,title,desc,body,cls='',extra=''):
     pre='' if c['code']=='en' else '../'
     f=c['files']; sub='' if c['code']=='en' else 'de/'
     otherpage=L['de' if c['code']=='en' else 'en']['files'][page]
     oth=c['other']+('' if page=='index' else otherpage)
     home='./'
     nav=''.join(f'<a href="{home}#{k}">{v}</a>' for k,v in c['nav']) if page=='index' else ''.join(f'<a href="{home}#{k}">{v}</a>' for k,v in c['nav'][:1]+c['nav'][2:3])
-    return head(c,page,title,desc,pre)+f'''<body class="{cls}">
+    return head(c,page,title,desc,pre,extra=extra)+f'''<body class="{cls}">
 <a class="skip" href="#main">{c['skip']}</a>
 <header class="top"><nav aria-label="Main" class="wrap">
 <a class="brand" href="{home}"><img alt="" width="36" height="36" src="{pre}img/logo.png"><span>Folvane<small>{c['tag']}</small></span></a>
@@ -238,7 +246,7 @@ def shell(c,page,title,desc,body,cls=''):
 {body}
 </main>
 <footer class="wrap footer">
-<a href="{home}">Folvane</a> · <a href="{f['support']}">{c['support']}</a> · <a href="{f['privacy']}">{c['privacy']}</a> · <a href="{f['imprint']}">{c['imprint']}</a>
+<a href="{home}">Folvane</a> · <a href="{f['cmpwin']}">{c['g_cmp']}</a> · <a href="{f['check']}">{c['g_chk']}</a> · <a href="{f['support']}">{c['support']}</a> · <a href="{f['privacy']}">{c['privacy']}</a> · <a href="{f['imprint']}">{c['imprint']}</a>
 <p>© 2026 Minh Studios · Michel Nguyen</p>
 <p>{c['foot_note']}</p>
 </footer>
@@ -249,7 +257,8 @@ def picture(c,name,alt,eager=False):
     l=c['code']; pre='' if l=='en' else '../'
     return f'<picture><source media="(prefers-color-scheme: dark)" srcset="{pre}img/{l}-dark-{name}.png"><img src="{pre}img/{l}-light-{name}.png" alt="{html.escape(alt)}" width="1366" height="820" {"fetchpriority=high" if eager else "loading=lazy"} decoding="async"></picture>'
 def storebtn(c):
-    return f'<a class="btn store" href="{STORE}" rel="noopener"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><path fill="currentColor" d="M2 3.5 10 2.4v8H2zM11 2.3 20 1v9.4h-9zM2 11.6h8v8L2 18.5zM11 11.6h9V21l-9-1.3z"/></svg><span>{c["get"]}<small>{c["getsub"]}</small></span></a>'
+    l=c['code']
+    return f'<a class="storebadge" href="{STORE_URL[l]}" rel="noopener"><img src="{BADGE[l]}" alt="{html.escape(c["get"])}" width="161" height="44" loading="lazy"></a>'
 def mailhtml(c):
     return f'<span class="mail" data-mail>mip [at] gmx.biz</span>'
 
@@ -276,8 +285,13 @@ def index(c):
 <div class="tablewrap"><table><thead><tr><th scope="col"><span class="sr">{c['cmp_h']}</span></th><th scope="col">{th[1]}</th><th scope="col">{th[2]}</th></tr></thead><tbody>{rows}</tbody></table></div></section>
 <section id="price" class="wrap two"><div class="card pricecard"><h2>{c['price_h']}</h2><p class="price">{c['price']}</p><p>{c['price_p']}</p><p>{storebtn(c)}</p></div>
 <div class="card"><h2>{c['req_h']}</h2><ul class="ticks">{req}</ul></div></section>
+<section id="guides" class="wrap"><h2>{c['g_h']}</h2><div class="grid"><div class="card"><h3><a href="{f['cmpwin']}">{c['g_cmp']}</a></h3><p>{c['g_cmp_d']}</p></div><div class="card"><h3><a href="{f['check']}">{c['g_chk']}</a></h3><p>{c['g_chk_d']}</p></div></div></section>
 <section id="faq" class="wrap doc"><h2>{c['faq_h']}</h2>{faq}<p><a href="{f['support']}">{c['more']} →</a></p></section>'''
-    return shell(c,'index',c['title'],c['desc'],body,'home')
+    import json
+    l=c['code']
+    ld={"@context":"https://schema.org","@type":"SoftwareApplication","name":"Folvane","alternateName":c['store_title'],"operatingSystem":"Windows","applicationCategory":"UtilitiesApplication","description":c['desc'],"url":BASE+('' if l=='en' else 'de/'),"downloadUrl":STORE_URL[l],"inLanguage":["en","de"],"image":BASE+"img/logo.png","offers":{"@type":"Offer","price":"9.99","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":STORE_URL[l]}}
+    extra='<script type="application/ld+json">'+json.dumps(ld,ensure_ascii=False)+'</script>\n'
+    return shell(c,'index',c['title'],c['desc'],body,'home',extra)
 def support(c):
     f=c['files']
     faq=''.join(f'<details><summary>{q}</summary><p>{a.format(privacy=f["privacy"])}</p></details>' for q,a in c['faq'])
@@ -302,17 +316,21 @@ for cc,pre in (('en',''),('de','de/')):
     for page,fn in (('index',index),('support',support),('privacy',privacy),('imprint',imprint)):
         name='index.html' if page=='index' else f[page]
         open(f'{OUT}/{pre}{name}','w').write(fn(c))
+for cc,pre in (('en',''),('de','de/')):
+    c=L[cc]; f=c['files']
+    for key in ('check','cmpwin'):
+        open(f'{OUT}/{pre}{f[key]}','w').write(guide(c,key))
 # 404 (absolute paths for /Folvane/)
 open(f'{OUT}/404.html','w').write(f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark"><meta name="robots" content="noindex">
-<title>404 – Folvane</title><link rel="icon" href="/Folvane/favicon.png"><link rel="stylesheet" href="/Folvane/style.css?v=2"></head>
+<title>404 – Folvane</title><link rel="icon" href="/Folvane/favicon.png"><link rel="stylesheet" href="/Folvane/style.css?v=3"></head>
 <body class="document-page"><header class="top"><nav class="wrap"><a class="brand" href="/Folvane/"><img alt="" width="36" height="36" src="/Folvane/img/logo.png"><span>Folvane</span></a></nav></header>
 <main class="wrap doc"><h1>404</h1><p>{L['en']['nf_p']} / {L['de']['nf_p']}</p>
 <p><a href="/Folvane/">{L['en']['nf_a']}</a> · <a href="/Folvane/de/">{L['de']['nf_a']}</a></p></main></body></html>
 ''')
 open(f'{OUT}/robots.txt','w').write(f'User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n')
-pages=['index','support','privacy','imprint']
+pages=['index','support','privacy','imprint','check','cmpwin']
 def u(cc,p): return BASE+('' if cc=='en' else 'de/')+('' if p=='index' else L[cc]['files'][p])
 sm='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
 for cc in ('en','de'):
