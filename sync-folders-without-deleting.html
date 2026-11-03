@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#3f4fc8">
+<title>Sync folders without deleting files on Windows | Folvane</title>
+<meta name="description" content="How to copy new and changed files between two folders on Windows without deleting anything: robocopy without /MIR, and the non-deleting options in Folvane.">
+<link rel="canonical" href="https://minh.systems/Folvane/sync-folders-without-deleting.html">
+<link rel="alternate" hreflang="en" href="https://minh.systems/Folvane/sync-folders-without-deleting.html">
+<link rel="alternate" hreflang="de" href="https://minh.systems/Folvane/de/dateien-synchronisieren-ohne-loeschen.html">
+<link rel="alternate" hreflang="x-default" href="https://minh.systems/Folvane/sync-folders-without-deleting.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Folvane">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Sync folders without deleting files on Windows | Folvane"><meta property="og:description" content="How to copy new and changed files between two folders on Windows without deleting anything: robocopy without /MIR, and the non-deleting options in Folvane.">
+<meta property="og:url" content="https://minh.systems/Folvane/sync-folders-without-deleting.html"><meta property="og:image" content="https://minh.systems/Folvane/img/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Folvane – folder compare &amp; sync for Windows">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png" type="image/png"><link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=3">
+<script src="site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does “Update right” in Folvane delete files?", "acceptedAnswer": {"@type": "Answer", "text": "No. It copies new and changed files to the right folder and removes nothing. Overwritten files are backed up first."}}, {"@type": "Question", "name": "Does two-way sync carry over deletions?", "acceptedAnswer": {"@type": "Answer", "text": "No, on purpose. Without a stored previous state that would be guesswork. Use “Mirror” if deletions should be carried over; it is always previewed and backed up."}}, {"@type": "Question", "name": "Can I undo a sync?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Overwritten and removed files are backed up beforehand, and the last sync can be undone in the history."}}, {"@type": "Question", "name": "Does robocopy delete files?", "acceptedAnswer": {"@type": "Answer", "text": "Only with switches such as /MIR or /PURGE. Without them it copies and updates but leaves extra files in the target alone."}}]}</script>
+</head>
+<body class="document-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><nav aria-label="Main" class="wrap">
+<a class="brand" href="./"><img alt="" width="36" height="36" src="img/logo.png"><span>Folvane<small>Folder compare & sync</small></span></a>
+<div class="links"><a href="./#features">Features</a><a href="./#price">Price</a><a href="support.html">Support</a><a class="lang" href="de/dateien-synchronisieren-ohne-loeschen.html" hreflang="de" lang="de" aria-label="Zu Deutsch wechseln">DE</a></div>
+</nav></header>
+<main id="main">
+<div class="wrap doc"><h1>Sync folders on Windows without deleting anything</h1><p class="lead2">Most “sync” horror stories have one cause: a mirror that removed files because they were missing on the other side. Here is how to copy only what is new or changed and leave everything else alone.</p>
+<h2>Why files disappear</h2><p>A <strong>mirror</strong> makes the target identical to the source. That includes removing every file in the target that the source does not have. That is exactly what you want for a clean copy, and exactly what you do not want if the target also holds files that exist nowhere else. A <strong>non-deleting</strong> sync only adds and updates.</p>
+<h2>Option 1: robocopy, without /MIR</h2><p>Windows includes <code>robocopy</code>. The switch <code>/MIR</code> (and <code>/PURGE</code>) deletes extra files in the target. Leave both out and nothing in the target is deleted:</p><p><code style="white-space:normal;word-break:break-all">robocopy "C:\Source" "D:\Target" /E /L</code></p><p><code>/E</code> includes subfolders, <code>/L</code> only lists what would be copied, without copying. Run it once with <code>/L</code>, read the list, then run it again without <code>/L</code>. Add <code>/XO</code> if files in the target that are newer should not be overwritten by older ones.</p>
+<h2>Option 2: Folvane, with a preview</h2><ol><li>Choose both folders and press F5 to compare.</li><li>Pick <strong>“Update right”</strong> (or left). It copies new and changed files to the other side and removes nothing.</li><li>Check the action list. Every action is shown before anything happens, and single items can be unticked.</li><li>Confirm. Files that get overwritten are backed up first (in the hidden folder <code>.folvane-backup</code>), and the last sync can be undone in the history.</li></ol><p>If changes happen on both sides, <strong>two-way sync</strong> copies the newer file in each direction. It does not delete, and when both sides changed it leaves the file alone instead of guessing.</p>
+<h2>Honest limits</h2><ul><li>“Without deleting” does not mean “without overwriting”: an older file in the target is replaced by a newer one from the source. In Folvane that is previewed and backed up; with robocopy, check the <code>/L</code> list first.</li><li>Because nothing is deleted, a file you removed in the source stays in the target. Both folders slowly drift apart in that direction. Use a mirror only when you want deletions carried over.</li><li>Folvane syncs when you start it. It is not a background service.</li></ul>
+<h2>Frequently asked questions</h2><details><summary>Does “Update right” in Folvane delete files?</summary><p>No. It copies new and changed files to the right folder and removes nothing. Overwritten files are backed up first.</p></details><details><summary>Does two-way sync carry over deletions?</summary><p>No, on purpose. Without a stored previous state that would be guesswork. Use “Mirror” if deletions should be carried over; it is always previewed and backed up.</p></details><details><summary>Can I undo a sync?</summary><p>Yes. Overwritten and removed files are backed up beforehand, and the last sync can be undone in the history.</p></details><details><summary>Does robocopy delete files?</summary><p>Only with switches such as /MIR or /PURGE. Without them it copies and updates but leaves extra files in the target alone.</p></details>
+<section class="card"><h2>Folvane</h2><p>Folvane – €9.99, one-time. Windows 10 (1809+) and 11 · x64 and ARM64 · English and German · One-time purchase, no subscription</p><p><a class="storebadge" href="https://apps.microsoft.com/detail/9NSDC58HLFRR?cid=website" rel="noopener"><img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from the Microsoft Store" width="161" height="44" loading="lazy"></a></p></section>
+<p><a href="find-duplicate-files-windows.html">Find duplicate files on Windows →</a> · <a href="./">Folvane</a> · <a href="support.html">Support & contact</a></p></div>
+</main>
+<footer class="wrap footer">
+<a href="./">Folvane</a> · <a href="compare-folders-windows.html">Compare folders on Windows</a> · <a href="check-backup.html">Check your backup</a> · <a href="sync-folders-without-deleting.html">Sync without deleting</a> · <a href="find-duplicate-files-windows.html">Find duplicates</a> · <a href="compare-folders-without-extra-software.html">Compare without extra software</a> · <a href="support.html">Support</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a>
+<p>© 2026 Minh Studios · Michel Nguyen</p>
+<p>No cookies, no trackers, no external scripts.</p>
+<p style="margin:16px 0 4px"><a href="https://minh.systems/MinhNguyenStudios/" aria-label="Minh Nguyen Studios" style="display:inline-block;line-height:0;border-radius:8px;overflow:hidden;opacity:.92"><picture><source srcset="img/studio-dunkel.png" media="(prefers-color-scheme: dark)"><img src="img/studio-hell.png" width="200" height="47" alt="Minh Nguyen Studios" loading="lazy" style="width:200px;height:auto"></picture></a></p></footer>
+</body>
+</html>

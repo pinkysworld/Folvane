@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#3f4fc8">
+<title>Ordner vergleichen unter Windows ohne Zusatzsoftware | Folvane</title>
+<meta name="description" content="Zwei Ordner nur mit Bordmitteln vergleichen: Explorer, robocopy und PowerShell, mit den Grenzen jeder Methode und dem Punkt, ab dem ein eigenes Programm einfacher ist.">
+<link rel="canonical" href="https://minh.systems/Folvane/de/ordner-vergleichen-ohne-zusatzsoftware.html">
+<link rel="alternate" hreflang="en" href="https://minh.systems/Folvane/compare-folders-without-extra-software.html">
+<link rel="alternate" hreflang="de" href="https://minh.systems/Folvane/de/ordner-vergleichen-ohne-zusatzsoftware.html">
+<link rel="alternate" hreflang="x-default" href="https://minh.systems/Folvane/compare-folders-without-extra-software.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Folvane">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Ordner vergleichen unter Windows ohne Zusatzsoftware | Folvane"><meta property="og:description" content="Zwei Ordner nur mit Bordmitteln vergleichen: Explorer, robocopy und PowerShell, mit den Grenzen jeder Methode und dem Punkt, ab dem ein eigenes Programm einfacher ist.">
+<meta property="og:url" content="https://minh.systems/Folvane/de/ordner-vergleichen-ohne-zusatzsoftware.html"><meta property="og:image" content="https://minh.systems/Folvane/img/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Folvane – folder compare &amp; sync for Windows">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.png" type="image/png"><link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css?v=3">
+<script src="../site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Kann ich zwei Ordner im Explorer vergleichen?", "acceptedAnswer": {"@type": "Answer", "text": "Nur grob: In den Eigenschaften siehst du Dateianzahl und Gesamtgröße. Welche Dateien sich unterscheiden, zeigt der Explorer nicht."}}, {"@type": "Question", "name": "Vergleicht robocopy in beide Richtungen?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Es arbeitet von einer Quelle zu einem Ziel. Mit vertauschten Ordnern führst du es für die andere Richtung erneut aus."}}, {"@type": "Question", "name": "Vergleicht PowerShell auch Dateiinhalte?", "acceptedAnswer": {"@type": "Answer", "text": "Compare-Object auf Namen nicht. Für den Inhalt berechnest du pro Datei mit Get-FileHash einen Hash und vergleichst diese."}}, {"@type": "Question", "name": "Ändert Folvane beim Vergleichen etwas?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Das Vergleichen liest nur. Nichts wird kopiert oder entfernt, bevor du einen Abgleich mit Vorschau bestätigst."}}]}</script>
+</head>
+<body class="document-page">
+<a class="skip" href="#main">Zum Inhalt</a>
+<header class="top"><nav aria-label="Main" class="wrap">
+<a class="brand" href="./"><img alt="" width="36" height="36" src="../img/logo.png"><span>Folvane<small>Ordner vergleichen &amp; synchronisieren</small></span></a>
+<div class="links"><a href="./#features">Funktionen</a><a href="./#price">Preis</a><a href="support.html">Support</a><a class="lang" href="../compare-folders-without-extra-software.html" hreflang="en" lang="en" aria-label="Switch to English">EN</a></div>
+</nav></header>
+<main id="main">
+<div class="wrap doc"><h1>Ordner vergleichen unter Windows ohne Zusatzsoftware</h1><p class="lead2">Um zu sehen, wie sich zwei Ordner unterscheiden, musst du nichts installieren. Windows bringt drei Wege mit. Jeder hat Grenzen, und genau dort hilft ein eigenes Werkzeug.</p>
+<h2>1. Explorer: grobe Prüfung</h2><p>In jedem Ordner alles markieren, Rechtsklick, Eigenschaften: Du siehst Anzahl der Dateien und Gesamtgröße. Weichen die Zahlen ab, unterscheiden sich die Ordner. Stimmen sie überein, können sie trotzdem abweichen, denn gleiche Größe heißt nicht gleicher Inhalt. Welche Dateien anders sind, sagt dir das nicht.</p>
+<h2>2. robocopy: was fehlt</h2><p><code style="white-space:normal;word-break:break-all">robocopy "C:\A" "D:\B" /L /E /NJH /NJS /NP</code></p><p><code>/L</code> listet auf, ohne zu kopieren, <code>/E</code> nimmt Unterordner mit. Die Ausgabe zeigt Dateien, die in B fehlen oder älter sind. Es schaut nur in eine Richtung; für die andere Seite führst du es mit vertauschtem A und B erneut aus.</p>
+<h2>3. PowerShell: beide Richtungen</h2><p><code style="white-space:normal;word-break:break-all">Compare-Object (Get-ChildItem "C:\A" -Recurse -File -Name) (Get-ChildItem "D:\B" -Recurse -File -Name)</code></p><p>Das Ergebnis listet Namen mit Pfeil: <code>&lt;=</code> nur in A, <code>=&gt;</code> nur in B. Verglichen werden nur Dateinamen. Für den Inhalt kommt <code>Get-FileHash</code> pro Datei dazu, was langsamer ist und mehr Tipparbeit bedeutet.</p>
+<h2>Wann ein eigenes Programm einfacher ist</h2><p>Mit Folvane wählst du zwei Ordner, drückst F5, und jede Datei bekommt einen Zustand: gleich, nur links, nur rechts, links neuer, rechts neuer oder unterschiedlich. Farbfilter und Sofortsuche helfen in großen Ordnern; verglichen wird nach Größe und Datum in Sekunden oder Byte für Byte, und ein Doppelklick auf eine geänderte Textdatei zeigt beide Fassungen nebeneinander. Das Ergebnis lässt sich als PDF-, HTML- oder CSV-Bericht speichern.</p><p>Das Vergleichen liest nur; geändert wird erst, wenn du einen Abgleich mit Vorschau bestätigst.</p>
+<h2>Ehrliche Grenzen</h2><ul><li>Die Bordmittel sind kostenlos und immer da; für eine schnelle Prüfung oder ein Skript reichen sie.</li><li>Folvane ist eine kostenpflichtige App (aktueller Preis im Store) und vergleicht, wenn du es startest; es ist kein Dienst im Hintergrund.</li></ul>
+<h2>Häufige Fragen</h2><details><summary>Kann ich zwei Ordner im Explorer vergleichen?</summary><p>Nur grob: In den Eigenschaften siehst du Dateianzahl und Gesamtgröße. Welche Dateien sich unterscheiden, zeigt der Explorer nicht.</p></details><details><summary>Vergleicht robocopy in beide Richtungen?</summary><p>Nein. Es arbeitet von einer Quelle zu einem Ziel. Mit vertauschten Ordnern führst du es für die andere Richtung erneut aus.</p></details><details><summary>Vergleicht PowerShell auch Dateiinhalte?</summary><p>Compare-Object auf Namen nicht. Für den Inhalt berechnest du pro Datei mit Get-FileHash einen Hash und vergleichst diese.</p></details><details><summary>Ändert Folvane beim Vergleichen etwas?</summary><p>Nein. Das Vergleichen liest nur. Nichts wird kopiert oder entfernt, bevor du einen Abgleich mit Vorschau bestätigst.</p></details>
+<section class="card"><h2>Folvane</h2><p>Folvane – 9,99 €, einmalig. Windows 10 (1809+) und 11 · x64 und ARM64 · Deutsch und Englisch · Einmalkauf, kein Abo</p><p><a class="storebadge" href="https://apps.microsoft.com/detail/9NSDC58HLFRR?cid=website&amp;hl=de-de" rel="noopener"><img src="https://get.microsoft.com/images/de%20dark.svg" alt="Im Microsoft Store herunterladen" width="161" height="44" loading="lazy"></a></p></section>
+<p><a href="dateien-synchronisieren-ohne-loeschen.html">Dateien synchronisieren ohne Löschen →</a> · <a href="./">Folvane</a> · <a href="support.html">Support</a></p></div>
+</main>
+<footer class="wrap footer">
+<a href="./">Folvane</a> · <a href="ordner-vergleichen-windows.html">Ordner vergleichen unter Windows</a> · <a href="backup-pruefen.html">Backup prüfen</a> · <a href="dateien-synchronisieren-ohne-loeschen.html">Synchronisieren ohne Löschen</a> · <a href="doppelte-dateien-finden.html">Doppelte Dateien finden</a> · <a href="ordner-vergleichen-ohne-zusatzsoftware.html">Vergleichen ohne Zusatzsoftware</a> · <a href="support.html">Support</a> · <a href="privacy.html">Datenschutz</a> · <a href="impressum.html">Impressum</a>
+<p>© 2026 Minh Studios · Michel Nguyen</p>
+<p>Keine Cookies, keine Tracker, keine externen Skripte.</p>
+<p style="margin:16px 0 4px"><a href="https://minh.systems/MinhNguyenStudios/" aria-label="Minh Nguyen Studios" style="display:inline-block;line-height:0;border-radius:8px;overflow:hidden;opacity:.92"><picture><source srcset="../img/studio-dunkel.png" media="(prefers-color-scheme: dark)"><img src="../img/studio-hell.png" width="200" height="47" alt="Minh Nguyen Studios" loading="lazy" style="width:200px;height:auto"></picture></a></p></footer>
+</body>
+</html>

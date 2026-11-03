@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#3f4fc8">
+<title>Find duplicate files in two folders on Windows | Folvane</title>
+<meta name="description" content="How to find identical duplicate files on Windows by content, not by name: a PowerShell one-liner with Get-FileHash, and the duplicates view in Folvane.">
+<link rel="canonical" href="https://minh.systems/Folvane/find-duplicate-files-windows.html">
+<link rel="alternate" hreflang="en" href="https://minh.systems/Folvane/find-duplicate-files-windows.html">
+<link rel="alternate" hreflang="de" href="https://minh.systems/Folvane/de/doppelte-dateien-finden.html">
+<link rel="alternate" hreflang="x-default" href="https://minh.systems/Folvane/find-duplicate-files-windows.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Folvane">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Find duplicate files in two folders on Windows | Folvane"><meta property="og:description" content="How to find identical duplicate files on Windows by content, not by name: a PowerShell one-liner with Get-FileHash, and the duplicates view in Folvane.">
+<meta property="og:url" content="https://minh.systems/Folvane/find-duplicate-files-windows.html"><meta property="og:image" content="https://minh.systems/Folvane/img/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Folvane – folder compare &amp; sync for Windows">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png" type="image/png"><link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=3">
+<script src="site.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does Folvane find duplicates by name or by content?", "acceptedAnswer": {"@type": "Answer", "text": "By content. Identical files are found even if their names differ."}}, {"@type": "Question", "name": "Can Folvane delete all copies by mistake?", "acceptedAnswer": {"@type": "Answer", "text": "No. Copies are moved to the Recycle Bin and one file always stays."}}, {"@type": "Question", "name": "Does it find similar photos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Only files with identical content. Resized or edited versions count as different files."}}, {"@type": "Question", "name": "Does it work offline?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Folvane needs no internet connection, no account and sends no data."}}]}</script>
+</head>
+<body class="document-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><nav aria-label="Main" class="wrap">
+<a class="brand" href="./"><img alt="" width="36" height="36" src="img/logo.png"><span>Folvane<small>Folder compare & sync</small></span></a>
+<div class="links"><a href="./#features">Features</a><a href="./#price">Price</a><a href="support.html">Support</a><a class="lang" href="de/doppelte-dateien-finden.html" hreflang="de" lang="de" aria-label="Zu Deutsch wechseln">DE</a></div>
+</nav></header>
+<main id="main">
+<div class="wrap doc"><h1>Find duplicate files on Windows</h1><p class="lead2">The same photo in two folders under different names, or a backup full of copies you already have: duplicates waste space and hide the files you need. Here is how to find them by content.</p>
+<h2>Compare content, not names</h2><p>Two files with the same name can differ, and two files with different names can be identical. A reliable check looks at the content, usually through a hash, a fingerprint that is the same for identical files.</p>
+<h2>Option 1: PowerShell</h2><p>In PowerShell, from the folder you want to check:</p><p><code style="white-space:normal;word-break:break-all">Get-ChildItem -Recurse -File | Get-FileHash | Group-Object Hash | Where-Object Count -gt 1</code></p><p>Each result group is a set of identical files. On large folders this reads every file and can take a while. PowerShell only lists them; you delete by hand, so make sure you keep one copy of each.</p>
+<h2>Option 2: Folvane duplicates view</h2><ol><li>Choose two folders and compare them.</li><li>Open the duplicates view. It finds identical files across both folders by content, not by name.</li><li>Pick the copies you do not need. They are moved to the Recycle Bin, and one file always stays.</li></ol><p>Because they go to the Recycle Bin, you can still restore a copy if you picked wrong.</p>
+<h2>Honest limits</h2><ul><li>Folvane works with the two folders you select. It is not a scan of your whole drive.</li><li>Identical content means the same bytes. Two similar photos (resized, edited, re-saved) are different files and are not found.</li><li>Check before removing: a file may be used by a program or a project in a specific place even though a copy exists elsewhere.</li></ul>
+<h2>Frequently asked questions</h2><details><summary>Does Folvane find duplicates by name or by content?</summary><p>By content. Identical files are found even if their names differ.</p></details><details><summary>Can Folvane delete all copies by mistake?</summary><p>No. Copies are moved to the Recycle Bin and one file always stays.</p></details><details><summary>Does it find similar photos?</summary><p>No. Only files with identical content. Resized or edited versions count as different files.</p></details><details><summary>Does it work offline?</summary><p>Yes. Folvane needs no internet connection, no account and sends no data.</p></details>
+<section class="card"><h2>Folvane</h2><p>Folvane – €9.99, one-time. Windows 10 (1809+) and 11 · x64 and ARM64 · English and German · One-time purchase, no subscription</p><p><a class="storebadge" href="https://apps.microsoft.com/detail/9NSDC58HLFRR?cid=website" rel="noopener"><img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from the Microsoft Store" width="161" height="44" loading="lazy"></a></p></section>
+<p><a href="compare-folders-without-extra-software.html">Compare folders without extra software →</a> · <a href="./">Folvane</a> · <a href="support.html">Support & contact</a></p></div>
+</main>
+<footer class="wrap footer">
+<a href="./">Folvane</a> · <a href="compare-folders-windows.html">Compare folders on Windows</a> · <a href="check-backup.html">Check your backup</a> · <a href="sync-folders-without-deleting.html">Sync without deleting</a> · <a href="find-duplicate-files-windows.html">Find duplicates</a> · <a href="compare-folders-without-extra-software.html">Compare without extra software</a> · <a href="support.html">Support</a> · <a href="privacy.html">Privacy</a> · <a href="imprint.html">Legal notice</a>
+<p>© 2026 Minh Studios · Michel Nguyen</p>
+<p>No cookies, no trackers, no external scripts.</p>
+<p style="margin:16px 0 4px"><a href="https://minh.systems/MinhNguyenStudios/" aria-label="Minh Nguyen Studios" style="display:inline-block;line-height:0;border-radius:8px;overflow:hidden;opacity:.92"><picture><source srcset="img/studio-dunkel.png" media="(prefers-color-scheme: dark)"><img src="img/studio-hell.png" width="200" height="47" alt="Minh Nguyen Studios" loading="lazy" style="width:200px;height:auto"></picture></a></p></footer>
+</body>
+</html>
