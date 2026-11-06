@@ -247,7 +247,7 @@ def shell(c,page,title,desc,body,cls='',extra=''):
 </main>
 <footer class="wrap footer">
 <a href="{home}">Folvane</a> · <a href="{f['cmpwin']}">{c['g_cmp']}</a> · <a href="{f['check']}">{c['g_chk']}</a> · <a href="{f['support']}">{c['support']}</a> · <a href="{f['privacy']}">{c['privacy']}</a> · <a href="{f['imprint']}">{c['imprint']}</a>
-<p>© 2026 Minh Studios · Michel Nguyen</p>
+<p>© 2026 Minh Nguyen Studios · Michel Nguyen</p>
 <p>{c['foot_note']}</p>
 </footer>
 </body>
