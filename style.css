@@ -43,3 +43,6 @@ address{font-style:normal}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .storebadge{display:inline-block;line-height:0}.storebadge img{height:44px;width:auto;display:block}
 .doc ol,.doc ul{padding-left:22px;color:var(--muted)}.doc li{margin:0 0 8px}
+
+.buybtn{display:inline-flex;align-items:center;height:44px;padding:0 16px;margin-left:8px;vertical-align:top;border-radius:8px;background:#ff90e8;color:#000;font-weight:700;font-size:15px;text-decoration:none;border:1px solid #000;white-space:nowrap}
+.buybtn:hover{background:#ffa6ee}
